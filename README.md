@@ -11,6 +11,8 @@ If the site is not on yet:
 3. Select branch **main** and folder **/ (root)**.
 4. Save.
 
-Channel stats load from `data/channels.json`.
+Channel stats load from `data/channels.json`. Logos live in `assets/`.
+
+Contact: sniporaph@gmail.com
 
 The Main YouTube (Collectibles) entry stays anonymous. Do not add a public name, handle, or URL for that channel.

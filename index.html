@@ -7,45 +7,98 @@
   <meta name="description" content="Snipora clips and edits long-form video into YouTube Shorts, Instagram Reels and TikTok. You film. Snipora grows it.">
   <link rel="canonical" href="https://sniporaph.github.io/">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <meta name="theme-color" content="#10110e">
+  <meta name="theme-color" content="#121212">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Poppins:wght@700&display=swap" rel="stylesheet">
+  <link rel="preload" href="assets/logo-wordmark-dark.svg" as="image">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <a class="skip" href="#content">Skip to content</a>
   <header class="site-header">
     <div class="wrap header-inner">
-      <a class="brand" href="#top">Snipora</a>
+      <a class="brand" href="#top">
+        <img src="assets/logo-primary.svg" alt="Snipora" width="1600" height="600">
+      </a>
       <nav aria-label="Page">
         <ul class="nav-list">
-          <li><a href="#services">Services</a></li>
+          <li><a href="#work">Work</a></li>
           <li><a href="#channels">Channels</a></li>
+          <li><a href="#services">Services</a></li>
           <li><a href="#campaigns">Campaigns</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
       </nav>
+      <a class="button button-small" href="#contact">Hire us</a>
     </div>
   </header>
 
   <main id="content">
     <section class="hero" id="top" aria-labelledby="hero-title">
-      <div class="wrap">
-        <p class="eyebrow">Short-form clipping for brands</p>
-        <h1 id="hero-title">Snipora</h1>
-        <p class="tagline"><span>You film.</span><span>Snipora grows it.</span></p>
-        <p class="pitch">Short-form clipping and editing for YouTube Shorts, Instagram Reels and TikTok.</p>
-        <a class="button" href="#contact">Hire us</a>
+      <div class="hero-ring" aria-hidden="true"></div>
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow eyebrow-on-dark">Short-form clipping for brands</p>
+          <h1 id="hero-title">
+            <img src="assets/logo-wordmark-dark.svg" alt="Snipora" width="1600" height="600">
+          </h1>
+          <p class="tagline">You film.<br><span>Snipora grows it.</span></p>
+          <p class="hero-pitch">Short-form clipping and editing for YouTube Shorts, Instagram Reels and TikTok.</p>
+          <div class="hero-actions">
+            <a class="button" href="#contact">Hire us</a>
+            <a class="button button-ghost" href="#work">See our work</a>
+          </div>
+        </div>
+        <div class="hero-stat">
+          <p class="hero-stat-value" id="hero-stat">1.47M+</p>
+          <p class="hero-stat-label">total views across channels</p>
+          <p class="hero-stat-exact" id="hero-exact">1,475,216 reported views. TikTok @sniporaph is not included.</p>
+        </div>
       </div>
-      <div class="razor" aria-hidden="true"></div>
+      <div class="hero-bar" aria-hidden="true"></div>
     </section>
 
-    <div class="wrap">
-      <section class="block" id="services" aria-labelledby="services-title">
-        <h2 id="services-title">Services</h2>
-        <p class="section-lead">What Snipora does with long-form footage.</p>
-        <ol class="service-grid">
+    <section class="band band-soft" id="work" aria-labelledby="work-title">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <p class="eyebrow">Work</p>
+          <h2 id="work-title">Top performing clips</h2>
+          <p class="section-lead">The highest-view Shorts across the channels, cleaned up so the hook is easy to read.</p>
+        </div>
+        <div class="clip-row" id="clip-row" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section class="band" id="channels" aria-labelledby="channels-title">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <p class="eyebrow">Channels</p>
+          <h2 id="channels-title">Where the views come from</h2>
+          <p class="section-lead">Open a channel to see every post, highest views first.</p>
+        </div>
+        <div class="channel-grid" id="channel-grid"></div>
+      </div>
+    </section>
+
+    <section class="band band-grey" id="fresh" aria-labelledby="fresh-title">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <p class="eyebrow">Launching soon</p>
+          <h2 id="fresh-title">Fresh channels</h2>
+          <p class="section-lead">Early channels, warming up and ready for a brand to start a new campaign.</p>
+        </div>
+        <div class="fresh-grid" id="fresh-grid"></div>
+      </div>
+    </section>
+
+    <section class="band" id="services" aria-labelledby="services-title">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <p class="eyebrow">Services</p>
+          <h2 id="services-title">What Snipora does with long-form footage</h2>
+        </div>
+        <ol class="service-grid reveal">
           <li>
             <h3>Clipping</h3>
             <p>Long-form content cut into YouTube Shorts, Instagram Reels and TikToks.</p>
@@ -63,22 +116,16 @@
             <p>Campaign clipping for brands.</p>
           </li>
         </ol>
-      </section>
+      </div>
+    </section>
 
-      <section class="block" id="channels" aria-labelledby="channels-title">
-        <h2 id="channels-title">Channels</h2>
-        <p class="headline-stat" id="view-lead">Loading channel totals</p>
-        <p class="exact" id="view-exact"></p>
-        <div id="channel-list"></div>
-        <noscript>
-          <p>Channel stats load from <code>data/channels.json</code> and need JavaScript.</p>
-        </noscript>
-      </section>
-
-      <section class="block" id="campaigns" aria-labelledby="campaigns-title">
-        <h2 id="campaigns-title">Campaign results</h2>
-        <p class="section-lead">Content Rewards, as of Nov 4, 2026.</p>
-        <ul class="result-grid">
+    <section class="band band-black" id="campaigns" aria-labelledby="campaigns-title">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <p class="eyebrow eyebrow-on-dark">Content Rewards, as of Nov 4, 2026</p>
+          <h2 id="campaigns-title">Campaign results</h2>
+        </div>
+        <ul class="result-grid reveal">
           <li>
             <p class="result-num">66</p>
             <p class="result-label">Clips submitted</p>
@@ -92,9 +139,9 @@
             <p class="result-label">Pending review</p>
           </li>
         </ul>
-        <p class="note">Approved clips were for Roblox game campaigns: Survive the Horde and Build a Ring Farm 2. Each approved clip was at about 1,165 to 1,402 views.</p>
-        <h3 class="subhead">Campaigns worked on</h3>
-        <ul class="name-list">
+        <p class="campaign-note reveal">Approved clips were for Roblox game campaigns: Survive the Horde and Build a Ring Farm 2. Each approved clip was at about 1,165 to 1,402 views.</p>
+        <h3 class="subhead reveal">Campaigns worked on</h3>
+        <ul class="name-list reveal">
           <li>Topps</li>
           <li>HardScope UnPacked</li>
           <li>Survive the Horde</li>
@@ -102,31 +149,46 @@
           <li>First Person Boxing</li>
           <li>Pet Simulator 99</li>
         </ul>
-      </section>
+      </div>
+    </section>
 
-      <section class="block" id="contact" aria-labelledby="contact-title">
-        <h2 id="contact-title">Contact</h2>
-        <p class="section-lead">You film. Snipora grows it.</p>
-        <div class="contact-links">
-          <a class="contact-link" href="mailto:rodclips@mail.grokbot.com">
+    <section class="contact" id="contact" aria-labelledby="contact-title">
+      <div class="wrap contact-inner">
+        <p class="eyebrow eyebrow-on-orange">Contact</p>
+        <h2 id="contact-title">You film. Snipora grows it.</h2>
+        <p class="contact-lead">Brands can reach Snipora here.</p>
+        <div class="contact-box">
+          <a class="contact-row" href="mailto:sniporaph@gmail.com">
             <span>Email</span>
-            <span class="address">rodclips<wbr>@mail.grokbot.com</span>
+            <strong>sniporaph<wbr>@gmail.com</strong>
           </a>
-          <a class="contact-link" href="https://www.tiktok.com/@sniporaph" rel="noopener noreferrer">
+          <a class="contact-row" href="https://www.tiktok.com/@sniporaph" rel="noopener noreferrer">
             <span>TikTok</span>
-            @sniporaph
+            <strong>@sniporaph</strong>
           </a>
         </div>
-      </section>
-    </div>
+      </div>
+    </section>
   </main>
 
   <footer class="site-footer">
     <div class="wrap footer-inner">
+      <img src="assets/logo-wordmark-light.svg" alt="" width="1600" height="600">
       <p>Snipora. Short-form clipping for brands.</p>
-      <a href="mailto:rodclips@mail.grokbot.com">rodclips@mail.grokbot.com</a>
+      <a href="mailto:sniporaph@gmail.com">sniporaph@gmail.com</a>
     </div>
   </footer>
+
+  <dialog id="channel-dialog" aria-labelledby="dialog-title">
+    <div class="dialog-panel">
+      <button type="button" class="dialog-close" id="dialog-close">Close</button>
+      <div id="dialog-body"></div>
+    </div>
+  </dialog>
+
+  <noscript>
+    <p class="noscript">Channel stats load from data/channels.json and need JavaScript. Services, campaign results, and contact details are on this page.</p>
+  </noscript>
   <script src="script.js"></script>
 </body>
 </html>
