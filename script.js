@@ -8,6 +8,7 @@
 
   var full = new Intl.NumberFormat("en-US");
   var channels = [];
+  var topShorts = {};
   var dialog = document.getElementById("channel-dialog");
   var dialogBody = document.getElementById("dialog-body");
 
@@ -27,12 +28,18 @@
     window.addEventListener("hashchange", syncHash);
     window.addEventListener("popstate", syncHash);
 
-    fetch("data/channels.json")
-      .then(function (response) {
+    Promise.all([
+      fetch("data/channels.json").then(function (response) {
         if (!response.ok) throw new Error("missing");
         return response.json();
+      }),
+      fetch("data/top-shorts.json").then(function (response) {
+        return response.ok ? response.json() : {};
       })
-      .then(function (data) {
+    ])
+      .then(function (results) {
+        var data = results[0];
+        topShorts = results[1] && typeof results[1] === "object" ? results[1] : {};
         if (!Array.isArray(data)) throw new Error("shape");
         channels = data.filter(function (channel) {
           return channel && channel.display_name;
@@ -199,14 +206,19 @@
     );
     card.append(stats);
 
-    var shorts = shortsOf(channel).slice(0, 3);
-    if (shorts.length) {
-      var label = document.createElement("p");
-      label.className = "shorts-label";
-      label.textContent = "Top Shorts";
-      card.append(label);
-      card.append(featureShort(shorts[0], shorts[0].views));
-      if (shorts.length > 1) card.append(shortList(shorts.slice(1), shorts[0].views));
+    var shelf = clipShelf(channel);
+    if (shelf) {
+      card.append(shelf);
+    } else {
+      var shorts = shortsOf(channel).slice(0, 3);
+      if (shorts.length) {
+        var label = document.createElement("p");
+        label.className = "shorts-label";
+        label.textContent = "Top Shorts";
+        card.append(label);
+        card.append(featureShort(shorts[0], shorts[0].views));
+        if (shorts.length > 1) card.append(shortList(shorts.slice(1), shorts[0].views));
+      }
     }
 
     var cue = document.createElement("p");
@@ -325,12 +337,54 @@
     subtle.textContent = count || "Stats coming soon.";
     card.append(subtle);
 
+    var shelf = clipShelf(channel);
+    if (shelf) card.append(shelf);
+
     var link = document.createElement("a");
     link.className = "launch";
     link.href = "#contact";
     link.textContent = "Launch your campaign here";
     card.append(link);
     return card;
+  }
+
+  function clipShelf(channel) {
+    var list = topShorts[channel.display_name];
+    if (!Array.isArray(list) || !list.length) return null;
+    var wrap = document.createElement("div");
+    wrap.className = "shorts-shelf-wrap";
+    var label = document.createElement("p");
+    label.className = "shorts-label";
+    label.textContent = "Top clips";
+    var row = document.createElement("div");
+    row.className = "shorts-shelf";
+    list.forEach(function (clip) {
+      if (!clip || typeof clip.id !== "string" || !/^[A-Za-z0-9_-]{6,}$/.test(clip.id)) return;
+      var link = document.createElement("a");
+      link.className = "shelf-card";
+      link.href = "https://www.youtube.com/shorts/" + clip.id;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      var frame = document.createElement("span");
+      frame.className = "shelf-thumb";
+      var img = document.createElement("img");
+      img.src = clip.thumb || ("https://i.ytimg.com/vi/" + clip.id + "/hqdefault.jpg");
+      img.alt = "";
+      img.width = 405;
+      img.height = 720;
+      frame.append(img);
+      var title = document.createElement("span");
+      title.className = "shelf-title";
+      title.textContent = clip.title || "Untitled";
+      var views = document.createElement("span");
+      views.className = "shelf-views";
+      views.textContent = clip.views_text || "";
+      link.append(frame, title, views);
+      row.append(link);
+    });
+    if (!row.childNodes.length) return null;
+    wrap.append(label, row);
+    return wrap;
   }
 
   function shortCount(channel) {
