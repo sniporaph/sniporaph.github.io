@@ -1,8 +1,16 @@
 (function () {
   var ANON = "Main YouTube (Collectibles)";
-  var FRESH = {
-    "Podcast Masters": "Podcast clips for YouTube Shorts, Reels and TikTok.",
-    "Clipz Masturrz": "Creator-style viral clips for YouTube Shorts, Reels and TikTok.",
+  var FRESH_NAMES = [
+    "Podcast Masters",
+    "Clipz Masturrz",
+    "SurviveTheHordeClips",
+    "Box Office Clips",
+    "Cashcutz",
+    "Daily Stream Cutz",
+    "Snipora (@sniporaph)"
+  ];
+  var FRESH_NOTE = {
+    "Box Office Clips": "Live in a movie campaign.",
     "Snipora (@sniporaph)": "Snipora on TikTok."
   };
 
@@ -79,7 +87,18 @@
   }
 
   function isFresh(channel) {
-    return Object.prototype.hasOwnProperty.call(FRESH, channel.display_name);
+    return FRESH_NAMES.indexOf(channel.display_name) !== -1;
+  }
+
+  function subscriberLabel(channel) {
+    if (!channel || channel.subscribers_hidden === true) return null;
+    if (typeof channel.subscribers_text === "string") {
+      var text = channel.subscribers_text.trim();
+      if (!text || /hidden/i.test(text) || /unavailable/i.test(text)) return null;
+      return text.replace(/\s*subscribers?$/i, "");
+    }
+    if (typeof channel.followers === "number") return full.format(channel.followers);
+    return null;
   }
 
   function postsOf(channel) {
@@ -129,7 +148,7 @@
     }
     var millions = Math.floor((total / 1000000) * 100) / 100;
     hero.textContent = trimNum(millions) + "M+";
-    exact.textContent = full.format(total) + " reported views. TikTok @sniporaph is not included.";
+    exact.textContent = full.format(total) + " reported views from channels with a published total. TikTok @sniporaph is not included.";
   }
 
   function renderClips() {
@@ -199,11 +218,10 @@
 
     var stats = document.createElement("div");
     stats.className = "stat-row";
-    stats.append(
-      stat(compact(reportedViews(channel)), "Total views"),
-      stat(compact(postCount(channel)), "Posts"),
-      stat(compact(averageViews(channel)), "Avg / post")
-    );
+    stats.append(stat(compact(reportedViews(channel)), "Total views"));
+    stats.append(stat(compact(postCount(channel)), "Videos"));
+    var subs = subscriberLabel(channel);
+    if (subs) stats.append(stat(subs, "Subscribers"));
     card.append(stats);
 
     var shelf = clipShelf(channel);
@@ -291,9 +309,8 @@
 
   function renderFresh() {
     var grid = document.getElementById("fresh-grid");
-    var order = ["Podcast Masters", "Clipz Masturrz", "Snipora (@sniporaph)"];
     grid.replaceChildren();
-    order.forEach(function (name) {
+    FRESH_NAMES.forEach(function (name) {
       var channel = channels.find(function (item) { return item.display_name === name; });
       if (channel) grid.append(freshCard(channel));
     });
@@ -302,12 +319,14 @@
   function freshCard(channel) {
     var card = document.createElement("article");
     card.className = "fresh-card reveal is-in";
-    if (!postsOf(channel).length) card.classList.add("fresh-card-soon");
+    var shelf = clipShelf(channel);
+    if (!shelf) card.classList.add("fresh-card-soon");
     card.id = slug(channel.display_name);
 
+    var launching = channel.status === "launching";
     var status = document.createElement("p");
     status.className = "status";
-    status.textContent = "Warming up";
+    status.textContent = launching ? "Launching soon" : "Warming up";
     card.append(status);
 
     var title = document.createElement("h3");
@@ -326,18 +345,29 @@
       niche.textContent = channel.niche;
       card.append(niche);
     }
-    var line = document.createElement("p");
-    line.className = "fresh-line";
-    line.textContent = FRESH[channel.display_name];
-    card.append(line);
+    if (FRESH_NOTE[channel.display_name]) {
+      var line = document.createElement("p");
+      line.className = "fresh-line";
+      line.textContent = FRESH_NOTE[channel.display_name];
+      card.append(line);
+    }
 
-    var count = shortCount(channel);
     var subtle = document.createElement("p");
     subtle.className = "subtle-count";
-    subtle.textContent = count || "Stats coming soon.";
-    card.append(subtle);
+    var bits = [];
+    if (launching) {
+      bits.push("No Shorts yet.");
+    } else if (channel.platform === "TikTok") {
+      bits.push("Stats coming soon.");
+    } else {
+      var count = shortCount(channel);
+      if (count) bits.push(count);
+      var subs = subscriberLabel(channel);
+      if (subs) bits.push(subs + " subscribers");
+    }
+    subtle.textContent = bits.join(" · ");
+    if (subtle.textContent) card.append(subtle);
 
-    var shelf = clipShelf(channel);
     if (shelf) card.append(shelf);
 
     var link = document.createElement("a");
@@ -388,14 +418,14 @@
   }
 
   function shortCount(channel) {
-    var posts = postsOf(channel);
-    if (!posts.length) return null;
-    var count = postCount(channel);
-    var shorts = posts.filter(function (post) { return post && post.type === "short"; }).length;
-    if (shorts === posts.length) {
-      return count + (count === 1 ? " Short posted" : " Shorts posted");
+    var count = typeof channel.short_count === "number" ? channel.short_count : null;
+    if (count == null) {
+      var posts = postsOf(channel);
+      if (!posts.length) return null;
+      count = posts.filter(function (post) { return post && post.type === "short"; }).length;
     }
-    return count + " posts";
+    if (!count) return null;
+    return count + (count === 1 ? " Short" : " Shorts");
   }
 
   function openChannel(channel, updateHash) {
@@ -448,11 +478,11 @@
 
     var stats = document.createElement("div");
     stats.className = "dialog-stats";
+    var subs = subscriberLabel(channel);
+    if (subs) stats.append(textStat("Subscribers", subs));
     stats.append(
-      exactStat("Subscribers", channel.followers),
-      exactStat("Posts", postCount(channel)),
-      exactStat("Total views", reportedViews(channel)),
-      exactStat("Average views per post", averageViews(channel))
+      exactStat("Videos", postCount(channel)),
+      exactStat("Total views", reportedViews(channel))
     );
 
     var posts = postsOf(channel).slice().sort(function (a, b) {
@@ -468,6 +498,17 @@
     });
 
     dialogBody.append(kicker, title, niche, stats, list);
+  }
+
+  function textStat(label, value) {
+    var wrap = document.createElement("div");
+    wrap.className = "dialog-stat";
+    var name = document.createElement("span");
+    name.textContent = label;
+    var strong = document.createElement("strong");
+    strong.textContent = value;
+    wrap.append(name, strong);
+    return wrap;
   }
 
   function exactStat(label, value) {

@@ -336,10 +336,21 @@ h2 {
   gap: 16px;
 }
 
+.channel-grid,
+.fresh-grid,
+.channel-card,
+.fresh-card,
+.shorts-shelf-wrap,
+.shorts-shelf,
+.shelf-card {
+  min-width: 0;
+}
+
 .shorts-shelf-wrap {
   position: relative;
   z-index: 2;
   margin-top: 22px;
+  max-width: 100%;
 }
 
 .shorts-shelf {
@@ -367,6 +378,8 @@ h2 {
 .shelf-thumb img {
   width: 100%;
   height: 100%;
+  max-width: 100%;
+  min-width: 0;
   object-fit: cover;
 }
 
