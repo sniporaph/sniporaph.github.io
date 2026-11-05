@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360">
+  <rect width="640" height="360" fill="#10131f"/>
+  <rect x="0" y="210" width="28" height="150" fill="#2a3148"/>
+  <rect x="36" y="160" width="22" height="200" fill="#3a4464"/>
+  <rect x="66" y="190" width="18" height="170" fill="#2a3148"/>
+  <rect x="92" y="140" width="30" height="220" fill="#4b5678"/>
+  <rect x="130" y="180" width="16" height="180" fill="#2a3148"/>
+  <text x="28" y="64" fill="#93c5fd" font-family="Arial, sans-serif" font-size="18" letter-spacing="2">NEW CHANNEL</text>
+  <text x="28" y="100" fill="#f4f5fb" font-family="Arial, sans-serif" font-size="28" font-weight="700">LAUNCH</text>
+  <g transform="translate(390 70)">
+    <rect width="210" height="150" rx="8" fill="#1b1f33" stroke="#d1d5e6" stroke-width="6"/>
+    <rect y="150" width="210" height="46" fill="#e5e7f5"/>
+    <rect x="78" y="196" width="54" height="18" fill="#111"/>
+    <rect x="150" y="18" width="44" height="28" fill="#f8fafc" stroke="#111"/>
+    <text x="156" y="36" fill="#111" font-family="Arial, sans-serif" font-size="10">SCENE</text>
+  </g>
+</svg>

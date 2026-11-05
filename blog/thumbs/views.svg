@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360">
+  <rect width="640" height="360" fill="#101226"/>
+  <text x="36" y="78" fill="#f4f5fb" font-family="Arial, sans-serif" font-size="42" font-weight="700">1.3M</text>
+  <text x="36" y="108" fill="#b7b9d1" font-family="Arial, sans-serif" font-size="16" letter-spacing="2">VIEWS</text>
+  <polyline points="40,280 120,250 190,260 270,190 340,200 430,120 520,90" fill="none" stroke="#f5c542" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect x="430" y="70" width="150" height="220" rx="18" fill="#1c2038" stroke="#3a3f66"/>
+  <circle cx="505" cy="170" r="28" fill="#7c3aed"/>
+  <polygon points="498,156 498,184 522,170" fill="#fff"/>
+</svg>

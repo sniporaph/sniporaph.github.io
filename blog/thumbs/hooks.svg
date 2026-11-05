@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360">
+  <rect width="640" height="360" fill="#14102a"/>
+  <text x="36" y="90" fill="#e9d5ff" font-family="Arial, sans-serif" font-size="64" font-weight="700">5 HOOKS</text>
+  <text x="36" y="132" fill="#f4f5fb" font-family="Arial, sans-serif" font-size="22">THAT KEEP VIEWERS</text>
+  <text x="36" y="162" fill="#f4f5fb" font-family="Arial, sans-serif" font-size="22">PAST 3 SECONDS</text>
+  <path d="M470 70c40 10 70 50 60 100-12 60-80 70-90 120" fill="none" stroke="#c084fc" stroke-width="16" stroke-linecap="round"/>
+  <circle cx="440" cy="300" r="16" fill="#f472b6"/>
+  <circle cx="560" cy="150" r="34" fill="#7c3aed"/>
+  <polygon points="550,136 550,164 578,150" fill="#fff"/>
+</svg>
