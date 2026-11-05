@@ -17,6 +17,16 @@
   var full = new Intl.NumberFormat("en-US");
   var channels = [];
   var topShorts = {};
+  var clipPool = [];
+  var activeFilter = "All";
+  var CLIP_NICHES = {
+    "Main YouTube (Collectibles)": "Collectibles",
+    "Liannajourney": "Roblox",
+    "SurviveTheHordeClips": "Roblox",
+    "Podcast Masters": "Podcast",
+    "Clipz Masturrz": "Streamer",
+    "Box Office Clips": "Movies"
+  };
   var dialog = document.getElementById("channel-dialog");
   var dialogBody = document.getElementById("dialog-body");
 
@@ -152,32 +162,71 @@
   }
 
   function renderClips() {
-    var row = document.getElementById("clip-row");
-    var pool = [];
+    clipPool = [];
     channels.forEach(function (channel) {
       shortsOf(channel).forEach(function (post) {
-        pool.push({ channel: channel, post: post });
+        clipPool.push({ channel: channel, post: post, niche: CLIP_NICHES[channel.display_name] || channel.niche || "Short-form" });
       });
     });
-    pool.sort(function (a, b) { return b.post.views - a.post.views; });
+    clipPool.sort(function (a, b) { return b.post.views - a.post.views; });
+    setupClipFilters();
+    drawClipCards();
+  }
+
+  function setupClipFilters() {
+    var filters = document.getElementById("clip-filters");
+    var available = ["All"];
+    clipPool.filter(function (item) { return !isFresh(item.channel); }).forEach(function (item) {
+      if (available.indexOf(item.niche) === -1) available.push(item.niche);
+    });
+    filters.replaceChildren();
+    available.forEach(function (name) {
+      var button = document.createElement("button");
+      button.type = "button";
+      button.className = "filter-chip";
+      button.textContent = name;
+      button.setAttribute("aria-pressed", name === activeFilter ? "true" : "false");
+      button.addEventListener("click", function () {
+        activeFilter = name;
+        filters.querySelectorAll("button").forEach(function (chip) {
+          chip.setAttribute("aria-pressed", chip.textContent === name ? "true" : "false");
+        });
+        drawClipCards();
+      });
+      filters.append(button);
+    });
+  }
+
+  function drawClipCards() {
+    var row = document.getElementById("clip-row");
+    var filtered = clipPool.filter(function (item) {
+      return activeFilter === "All" || item.niche === activeFilter;
+    }).slice(0, 8);
     row.replaceChildren();
-    pool.slice(0, 5).forEach(function (item) {
+    document.getElementById("filter-status").textContent = filtered.length + (filtered.length === 1 ? " clip" : " clips") + (activeFilter === "All" ? " across all niches" : " in " + activeFilter);
+    filtered.forEach(function (item) {
       var button = document.createElement("button");
       button.type = "button";
       button.className = "clip-card";
+      button.setAttribute("aria-label", cleanTitle(item.post.title, 110) + ", " + full.format(item.post.views) + " views. View channel posts.");
+      var niche = document.createElement("p");
+      niche.className = "clip-niche";
+      niche.textContent = item.niche + " · Short";
       var views = document.createElement("p");
       views.className = "clip-views";
       views.textContent = compact(item.post.views);
+      var viewsLabel = document.createElement("span");
+      viewsLabel.className = "clip-views-label";
+      viewsLabel.textContent = "views";
+      views.append(viewsLabel);
       var title = document.createElement("p");
       title.className = "clip-title";
       title.textContent = cleanTitle(item.post.title, 78);
       var label = document.createElement("p");
       label.className = "clip-channel";
       label.textContent = item.channel.display_name;
-      button.append(views, title, label);
-      button.addEventListener("click", function () {
-        openChannel(item.channel, true);
-      });
+      button.append(niche, views, title, label);
+      button.addEventListener("click", function () { openChannel(item.channel, true); });
       row.append(button);
     });
   }

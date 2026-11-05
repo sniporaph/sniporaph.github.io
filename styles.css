@@ -882,3 +882,116 @@ dialog::backdrop { background: rgba(0, 0, 0, 0.62); }
     opacity: 1;
   }
 }
+
+/* Conversion refresh */
+.brand-promise {
+  margin: 26px 0 0;
+  color: var(--accent-hi);
+  font-family: var(--display);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.hero .tagline { max-width: 16ch; margin-top: 16px; }
+.hero-support {
+  max-width: 54ch;
+  margin: 14px auto 0;
+  color: var(--text);
+  font-size: 16px;
+}
+.hero-stat {
+  width: fit-content;
+  margin: 48px auto 0;
+  padding: 26px 36px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(26, 26, 26, 0.72);
+}
+.hero-stat-label { color: var(--text); }
+.hero-stat-exact { max-width: 44ch; }
+.eyebrow, .clip-niche {
+  margin: 0 0 12px;
+  color: var(--accent-hi);
+  font-family: var(--display);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.filter-chips {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 2px 2px 10px;
+  scrollbar-width: thin;
+}
+.filter-chip {
+  flex: 0 0 auto;
+  min-height: 42px;
+  padding: 9px 17px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--muted);
+  font: 700 14px var(--display);
+  cursor: pointer;
+}
+.filter-chip:hover { border-color: var(--accent); color: var(--text); }
+.filter-chip[aria-pressed="true"] { border-color: var(--accent); background: var(--accent); color: var(--bg); }
+.filter-status { margin: 10px 0 20px; color: var(--muted); font-size: 14px; }
+.clip-row { grid-auto-columns: minmax(250px, 300px); gap: 18px; padding: 2px 2px 16px; }
+.clip-card { display: flex; flex-direction: column; min-height: 286px; padding: 24px; }
+.clip-card .clip-niche { margin-bottom: 22px; }
+.clip-views-label { margin-left: 8px; color: var(--muted); font: 600 14px var(--font); letter-spacing: 0; }
+.clip-title { margin-top: 22px; font-size: 1.12rem; }
+.clip-channel { margin-top: auto; padding-top: 20px; }
+.service-grid { counter-reset: steps; }
+.service-grid li { padding: 30px; }
+.step { display: block; color: var(--accent); font: 700 2rem/1 var(--display); letter-spacing: -0.04em; }
+.campaign-highlight {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px 26px;
+  align-items: center;
+  padding: 30px;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  background: linear-gradient(120deg, rgba(255,107,53,.12), var(--surface));
+}
+.campaign-highlight .result-num { grid-row: 1 / 3; font-size: clamp(4rem, 10vw, 6.5rem); }
+.campaign-highlight .result-label { margin: 0; font-size: 1.15rem; }
+.result-detail { margin: 0; color: var(--muted); }
+.campaign-grid { display: grid; gap: 16px; margin-top: 16px; }
+.campaign-card { padding: 28px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--raised); }
+.campaign-card h3, .quality-note h3 { margin: 18px 0 8px; font: 700 1.35rem/1.2 var(--display); }
+.campaign-card > p:last-child, .quality-note p { margin: 0; color: var(--muted); }
+.quality-note { margin-top: 24px; padding-left: 22px; border-left: 3px solid var(--accent); }
+.quality-note h3 { margin-top: 0; }
+.closing h2 { max-width: 18ch; }
+.closing-cta { margin: 0 auto 28px; }
+.contact-rows { margin-top: 28px; }
+
+@media (min-width: 800px) {
+  .service-grid { grid-template-columns: repeat(4, 1fr); }
+  .campaign-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 860px) {
+  .links { flex-wrap: nowrap; justify-content: flex-start; overflow-x: auto; padding-bottom: 4px; }
+  .nav .wrap { column-gap: 10px; }
+  .nav-cta { padding-inline: 16px; font-size: 14px; }
+  .hero .tagline { font-size: clamp(2.35rem, 11vw, 4rem); }
+  .campaign-highlight { grid-template-columns: 1fr; text-align: center; }
+  .campaign-highlight .result-num { grid-row: auto; }
+}
+@media (max-width: 430px) {
+  .wrap { width: min(100% - 28px, 1120px); }
+  .brand img { height: 29px; }
+  .nav-cta { padding: 10px 13px; font-size: 12px; }
+  .hero { padding-top: 56px; }
+  .hero-stat { width: 100%; padding-inline: 18px; }
+  .cta .btn { width: 100%; }
+  .clip-row { grid-auto-columns: 84%; }
+  .contact-rows strong { overflow-wrap: anywhere; }
+  .closing .box { padding-inline: 18px; }
+}
