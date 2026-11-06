@@ -10,34 +10,65 @@
   <meta name="theme-color" content="#121212">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@700&display=swap" rel="stylesheet">
-  <link rel="preload" href="assets/logo-wordmark-dark.svg" as="image">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Poppins:wght@700;800;900&display=swap" rel="stylesheet">
+  <link rel="preload" href="assets/snipora-logo-on-dark.svg" as="image">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <a class="skip" href="#content">Skip to content</a>
-  <header class="nav">
-    <div class="wrap">
-      <a class="brand" href="#top">
-        <img src="assets/logo-wordmark-dark.svg" alt="Snipora" width="1600" height="600">
-      </a>
-      <nav class="links" aria-label="Page">
-        <a href="#work">Work</a>
-        <a href="#campaigns">Results</a>
-        <a href="#services">How it works</a>
-        <a href="#channels">Channels</a>
-        <a href="/blog/">Blog</a>
-        <a href="#contact">Contact</a>
-      </nav>
-      <a class="btn primary nav-cta" href="mailto:sniporaph@gmail.com?subject=Free%20sample%20for%20my%20brand">Get a free sample</a>
-    </div>
+  <header class="nav" id="site-nav">
+    <a class="brand" href="#top">
+      <img src="assets/snipora-logo-on-dark.svg" alt="Snipora" width="1252" height="284">
+      <span class="pulse" aria-hidden="true"></span>
+    </a>
+    <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="site-links">
+      <span class="sr-only">Menu</span>
+      <span class="burger" aria-hidden="true"></span>
+    </button>
+    <nav class="links" id="site-links" aria-label="Page">
+      <a href="#work">Work</a>
+      <a href="#campaigns">Results</a>
+      <a href="#services">How it works</a>
+      <a href="#channels">Channels</a>
+      <a href="/blog/">Blog</a>
+      <a href="#contact">Contact</a>
+      <a class="btn primary menu-cta" href="mailto:sniporaph@gmail.com?subject=Free%20sample%20for%20my%20brand">Get a free sample</a>
+    </nav>
+    <a class="btn primary nav-cta" href="mailto:sniporaph@gmail.com?subject=Free%20sample%20for%20my%20brand">Get a free sample</a>
   </header>
 
   <main id="content">
     <div class="hero" id="top">
-      <div class="wrap">
+      <div class="hero-bg-clip" aria-hidden="true">
+        <p class="hero-bg">Snipora</p>
+      </div>
+      <div class="hero-stage">
+        <div class="cube-scene" aria-hidden="true">
+          <div class="cube-tilt">
+          <div class="cube">
+            <figure class="cube-face">
+              <img src="assets/thumbs/sUi8kNUFDUs.jpg" alt="">
+              <figcaption>Gengar</figcaption>
+            </figure>
+            <figure class="cube-face">
+              <img src="assets/thumbs/10_YAOrcGUA.jpg" alt="">
+              <figcaption>Ash</figcaption>
+            </figure>
+            <figure class="cube-face">
+              <img src="assets/thumbs/rrLB_Rxma3o.jpg" alt="">
+              <figcaption>Moltres</figcaption>
+            </figure>
+            <figure class="cube-face">
+              <img src="assets/thumbs/e5MdQU4XwX4.jpg" alt="">
+              <figcaption>Roblox</figcaption>
+            </figure>
+          </div>
+          </div>
+        </div>
+      </div>
+      <div class="wrap hero-copy">
         <h1 id="hero-title">
-          <img src="assets/logo-wordmark-dark.svg" alt="Snipora" width="1600" height="600">
+          <img src="assets/snipora-logo-on-dark.svg" alt="Snipora" width="1252" height="284">
         </h1>
         <p class="brand-promise">You film. Snipora grows it.</p>
         <h2 class="tagline">Your content.<br><span>Clips built to get views.</span></h2>
@@ -51,17 +82,6 @@
           <p class="hero-stat-value" id="hero-stat">1.48M+</p>
           <p class="hero-stat-label">Reported views across our channels</p>
           <p class="hero-stat-exact" id="hero-exact">1,482,650 reported views from channels with a published total. TikTok @sniporaph is not included.</p>
-        </div>
-        <div class="mock" aria-hidden="true">
-          <div class="bar"><span></span><span></span><span></span></div>
-          <div class="tracks">
-            <div class="track">Captions<div class="lane" style="--c:#ff6b35"><b style="left:2%;width:9%"></b><b style="left:13%;width:6%"></b><b style="left:21%;width:11%"></b><b style="left:34%;width:7%"></b><b style="left:43%;width:12%"></b><b style="left:57%;width:8%"></b><b style="left:67%;width:10%"></b><b style="left:79%;width:7%"></b><b style="left:88%;width:10%"></b></div></div>
-            <div class="track">Clips<div class="lane" style="--c:#ffb199"><b style="left:0;width:18%"></b><b style="left:20%;width:22%"></b><b style="left:44%;width:16%"></b><b style="left:62%;width:20%"></b><b style="left:84%;width:14%"></b></div></div>
-            <div class="track">Hooks<div class="lane" style="--c:#ff8a5c"><b style="left:0;width:28%"></b><b style="left:30%;width:24%"></b><b style="left:56%;width:42%"></b></div></div>
-            <div class="track">Music<div class="lane" style="--c:#fff3ee"><b style="left:0;width:100%"></b></div></div>
-            <div class="track">Posts<div class="lane" style="--c:#ffd0c2"><b style="left:8%;width:3%"></b><b style="left:26%;width:3%"></b><b style="left:41%;width:4%"></b><b style="left:58%;width:3%"></b><b style="left:73%;width:4%"></b><b style="left:90%;width:3%"></b></div></div>
-            <div class="playhead"></div>
-          </div>
         </div>
       </div>
     </div>
@@ -99,19 +119,21 @@
       </div>
     </section>
 
-    <section id="services" class="band">
+    <section id="services">
       <div class="wrap">
         <div class="head reveal">
           <p class="eyebrow">Campaign clipping, end to end</p>
           <h2 id="services-title">From your brief to approved views</h2>
           <p>Send the source material. Snipora handles the short-form edit and delivery around your campaign.</p>
         </div>
-        <ol class="service-grid reveal">
-          <li><span class="step">01</span><h3>Share your video or brief</h3><p>Your brand sends the long-form video or campaign brief, including the requirements and posting plan.</p></li>
-          <li><span class="step">02</span><h3>We create high-retention clips</h3><p>We shape the strongest moments around a clear hook, curiosity and a satisfying payoff.</p></li>
-          <li><span class="step">03</span><h3>We post, schedule or submit</h3><p>Clips are posted, scheduled or submitted for review according to your campaign brief.</p></li>
-          <li><span class="step">04</span><h3>You get views and reporting</h3><p>Your brand gets approved views plus clear reporting on the clips and their performance.</p></li>
-        </ol>
+        <div class="service-panel reveal">
+          <ol class="service-grid">
+            <li><span class="step">01</span><h3>Share your video or brief</h3><p>Your brand sends the long-form video or campaign brief, including the requirements and posting plan.</p></li>
+            <li><span class="step">02</span><h3>We create high-retention clips</h3><p>We shape the strongest moments around a clear hook, curiosity and a satisfying payoff.</p></li>
+            <li><span class="step">03</span><h3>We post, schedule or submit</h3><p>Clips are posted, scheduled or submitted for review according to your campaign brief.</p></li>
+            <li><span class="step">04</span><h3>You get views and reporting</h3><p>Your brand gets approved views plus clear reporting on the clips and their performance.</p></li>
+          </ol>
+        </div>
       </div>
     </section>
 
@@ -140,12 +162,36 @@
       </div>
     </section>
 
+    <section id="journal">
+      <div class="wrap">
+        <div class="head reveal">
+          <p class="eyebrow">Blog</p>
+          <h2 id="blog-title">Blog</h2>
+          <p>Clipping tips, case studies and growth updates.</p>
+        </div>
+        <div class="blog-links reveal">
+          <a href="/blog/launching-movie-clips-channel/">
+            <span>Updates · November 4, 2026</span>
+            <strong>Launching our movie clips channel</strong>
+          </a>
+          <a href="/blog/how-we-hit-1-3m-views/">
+            <span>Case study · November 2, 2026</span>
+            <strong>How we hit 1.3M views on Shorts</strong>
+          </a>
+          <a href="/blog/five-hooks-past-3-seconds/">
+            <span>Tips · October 28, 2026</span>
+            <strong>5 hooks that keep viewers past 3 seconds</strong>
+          </a>
+        </div>
+      </div>
+    </section>
+
     <section class="closing" id="contact" aria-labelledby="contact-title">
       <div class="wrap">
         <div class="box">
-          <img class="closing-logo" src="assets/logo-wordmark-dark.svg" alt="" width="1600" height="600">
+          <img class="closing-mark" src="assets/mark-white.svg" alt="" width="268" height="268">
           <p class="eyebrow">Ready to put your content to work?</p>
-          <h2 id="contact-title">Let’s make your next campaign clip-worthy.</h2>
+          <h2 id="contact-title">Let’s make your next campaign<br>clip-worthy.</h2>
           <p>Tell us about your brand, video or campaign brief. Ask for a free sample and see what Snipora can do with your content.</p>
           <a class="btn primary closing-cta" href="mailto:sniporaph@gmail.com?subject=Free%20sample%20for%20my%20brand">Get a free sample</a>
           <div class="contact-rows">
@@ -164,11 +210,22 @@
   </main>
 
   <footer>
-    <div class="wrap">
-      <img src="assets/logo-wordmark-dark.svg" alt="" width="1600" height="600">
-      <span>Snipora. Short-form clipping for brands.</span>
-      <a href="mailto:sniporaph@gmail.com">sniporaph@gmail.com</a>
-      <a href="#top">Back to top</a>
+    <div class="wrap footer-meta">
+      <img class="footer-mark" src="assets/mark-orange.svg" alt="" width="268" height="268">
+      <div class="footer-copy">
+        <img src="assets/snipora-logo-on-dark.svg" alt="Snipora" width="1252" height="284">
+        <p>Snipora. Short-form clipping for brands.</p>
+        <div class="footer-links">
+          <a href="mailto:sniporaph@gmail.com">sniporaph@gmail.com</a>
+          <a href="https://www.tiktok.com/@sniporaph" rel="noopener noreferrer">TikTok @sniporaph</a>
+          <a href="/blog/">Blog</a>
+          <a href="#top">Back to top</a>
+        </div>
+      </div>
+    </div>
+    <p class="footer-giant" aria-hidden="true">Snipora</p>
+    <div class="logo-plate">
+      <img src="assets/snipora-logo.svg" alt="Snipora" width="1252" height="284">
     </div>
   </footer>
 
