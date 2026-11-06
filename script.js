@@ -35,6 +35,7 @@
 
   function init() {
     setupReveal();
+    setupMenu();
     document.getElementById("dialog-close").addEventListener("click", closeDialog);
     dialog.addEventListener("click", function (event) {
       if (event.target === dialog) closeDialog();
@@ -73,6 +74,27 @@
         document.getElementById("hero-exact").textContent = "Channel data could not be loaded.";
         document.getElementById("clip-row").textContent = "Clips could not be loaded.";
       });
+  }
+
+  function setupMenu() {
+    var nav = document.getElementById("site-nav");
+    var toggle = document.getElementById("nav-toggle");
+    if (!nav || !toggle) return;
+    function setOpen(open) {
+      nav.classList.toggle("is-open", open);
+      document.body.classList.toggle("nav-open", open);
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+      toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    }
+    toggle.addEventListener("click", function () {
+      setOpen(!nav.classList.contains("is-open"));
+    });
+    nav.querySelectorAll(".links a").forEach(function (link) {
+      link.addEventListener("click", function () { setOpen(false); });
+    });
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && nav.classList.contains("is-open")) setOpen(false);
+    });
   }
 
   function setupReveal() {
@@ -204,11 +226,27 @@
     }).slice(0, 8);
     row.replaceChildren();
     document.getElementById("filter-status").textContent = filtered.length + (filtered.length === 1 ? " clip" : " clips") + (activeFilter === "All" ? " across all niches" : " in " + activeFilter);
-    filtered.forEach(function (item) {
+    filtered.forEach(function (item, index) {
       var button = document.createElement("button");
       button.type = "button";
-      button.className = "clip-card";
+      button.className = "clip-card" + (index === 0 ? " is-feature" : "");
       button.setAttribute("aria-label", cleanTitle(item.post.title, 110) + ", " + full.format(item.post.views) + " views. View channel posts.");
+      var thumb = thumbFor(item.channel, item.post);
+      if (thumb) {
+        var img = document.createElement("img");
+        img.src = thumb;
+        img.alt = "";
+        img.width = 405;
+        img.height = 720;
+        button.append(img);
+      }
+      if (index === 0) {
+        var lights = document.createElement("span");
+        lights.className = "traffic";
+        lights.setAttribute("aria-hidden", "true");
+        lights.append(document.createElement("i"), document.createElement("i"), document.createElement("i"));
+        button.append(lights);
+      }
       var niche = document.createElement("p");
       niche.className = "clip-niche";
       niche.textContent = item.niche + " · Short";
@@ -225,10 +263,45 @@
       var label = document.createElement("p");
       label.className = "clip-channel";
       label.textContent = item.channel.display_name;
-      button.append(niche, views, title, label);
+      var body = document.createElement("span");
+      body.className = "clip-body";
+      body.append(niche, views, title, label);
+      button.append(body);
       button.addEventListener("click", function () { openChannel(item.channel, true); });
       row.append(button);
     });
+  }
+
+  function thumbFor(channel, post) {
+    var list = topShorts[channel.display_name];
+    if (!Array.isArray(list)) return "";
+    var id = youtubeId(post && post.url);
+    var match = null;
+    if (id) {
+      match = list.find(function (clip) { return clip && clip.id === id; });
+    }
+    if (!match) {
+      var key = normalizeTitle(post && post.title);
+      match = list.find(function (clip) { return clip && normalizeTitle(clip.title) === key; });
+    }
+    return match && typeof match.thumb === "string" ? match.thumb : "";
+  }
+
+  function youtubeId(url) {
+    if (typeof url !== "string") return "";
+    var match = url.match(/\/shorts\/([A-Za-z0-9_-]{6,})/);
+    return match ? match[1] : "";
+  }
+
+  function normalizeTitle(raw) {
+    return String(raw || "")
+      .replace(/#\S+/g, " ")
+      .replace(/\[channel\]/gi, " ")
+      .replace(/\p{Extended_Pictographic}/gu, " ")
+      .replace(/[^a-z0-9]+/gi, " ")
+      .replace(/\s+/g, " ")
+      .trim()
+      .toLowerCase();
   }
 
   function renderProven() {
