@@ -480,7 +480,11 @@
     if (launching) {
       bits.push("No Shorts yet.");
     } else if (channel.platform === "TikTok") {
-      bits.push("Stats coming soon.");
+      var ttBits = [];
+      if (typeof channel.video_count === "number") ttBits.push(channel.video_count + (channel.video_count === 1 ? " video" : " videos"));
+      if (typeof channel.followers === "number") ttBits.push(full.format(channel.followers) + " followers");
+      if (typeof channel.likes === "number") ttBits.push(full.format(channel.likes) + " likes");
+      bits.push(ttBits.length ? ttBits.join(" · ") : "Stats coming soon.");
     } else {
       var count = shortCount(channel);
       if (count) bits.push(count);
