@@ -1379,3 +1379,48 @@ body.nav-open { overflow: hidden; }
   .clip-card img,
   .shelf-thumb img { transition: none; }
 }
+
+/* Roblox channels */
+.roblox-grid {
+  display: grid;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.roblox-card { min-width: 0; }
+.roblox-card.is-hit { border-color: rgba(255, 107, 53, 0.85); }
+.roblox-card .card-kicker { flex-wrap: wrap; }
+
+.roblox-avg {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 0.6rem;
+  margin: 1.1rem 0 0;
+  color: var(--muted);
+  font-size: 0.98rem;
+  line-height: 1.4;
+}
+
+.roblox-avg strong {
+  font-family: var(--display);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1;
+  color: var(--text);
+}
+
+.roblox-card.is-hit .roblox-avg strong { color: var(--accent); }
+
+.roblox-subhead { margin-top: 2.4rem; }
+
+a.clip-card { text-decoration: none; }
+
+@media (min-width: 800px) {
+  .roblox-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (min-width: 1000px) {
+  .roblox-row { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
