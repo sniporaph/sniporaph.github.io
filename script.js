@@ -3,14 +3,16 @@
   var FRESH_NAMES = [
     "Podcast Masters",
     "Clipz Masturrz",
-    "SurviveTheHordeClips",
+    "RobloxMemers",
     "Box Office Clips",
     "Cashcutz",
     "Daily Stream Cutz",
+    "Snipora YouTube (@sniporaph)",
     "Snipora (@sniporaph)"
   ];
   var FRESH_NOTE = {
     "Box Office Clips": "Live in a movie campaign.",
+    "Snipora YouTube (@sniporaph)": "Snipora on YouTube.",
     "Snipora (@sniporaph)": "Snipora on TikTok."
   };
 
@@ -21,12 +23,16 @@
   var activeFilter = "All";
   var CLIP_NICHES = {
     "Main YouTube (Collectibles)": "Collectibles",
-    "Liannajourney": "Roblox",
-    "SurviveTheHordeClips": "Roblox",
+    "MasterClipper": "Roblox",
+    "RobloxMemers": "Roblox",
     "Podcast Masters": "Podcast",
     "Clipz Masturrz": "Streamer",
-    "Box Office Clips": "Movies"
+    "Box Office Clips": "GTA 6",
+    "Cashcutz": "Money",
+    "Daily Stream Cutz": "Streamer",
+    "Snipora YouTube (@sniporaph)": "Podcast"
   };
+  var ROBLOX_MIN = 1500;
   var dialog = document.getElementById("channel-dialog");
   var dialogBody = document.getElementById("dialog-body");
 
@@ -67,6 +73,7 @@
         renderClips();
         renderProven();
         renderFresh();
+        renderRoblox();
         syncHash();
       })
       .catch(function () {
@@ -227,52 +234,65 @@
     row.replaceChildren();
     document.getElementById("filter-status").textContent = filtered.length + (filtered.length === 1 ? " clip" : " clips") + (activeFilter === "All" ? " across all niches" : " in " + activeFilter);
     filtered.forEach(function (item, index) {
-      var button = document.createElement("button");
-      button.type = "button";
-      button.className = "clip-card" + (index === 0 ? " is-feature" : "");
-      button.setAttribute("aria-label", cleanTitle(item.post.title, 110) + ", " + full.format(item.post.views) + " views. View channel posts.");
-      var thumb = thumbFor(item.channel, item.post);
-      if (thumb) {
-        var img = document.createElement("img");
-        img.src = thumb;
-        img.alt = "";
-        img.width = 405;
-        img.height = 720;
-        button.append(img);
-      }
-      if (index === 0) {
-        var lights = document.createElement("span");
-        lights.className = "traffic";
-        lights.setAttribute("aria-hidden", "true");
-        lights.append(document.createElement("i"), document.createElement("i"), document.createElement("i"));
-        button.append(lights);
-      }
-      var niche = document.createElement("p");
-      niche.className = "clip-niche";
-      niche.textContent = item.niche + " · Short";
-      var views = document.createElement("p");
-      views.className = "clip-views";
-      views.textContent = compact(item.post.views);
-      var viewsLabel = document.createElement("span");
-      viewsLabel.className = "clip-views-label";
-      viewsLabel.textContent = "views";
-      views.append(viewsLabel);
-      var title = document.createElement("p");
-      title.className = "clip-title";
-      title.textContent = cleanTitle(item.post.title, 78);
-      var label = document.createElement("p");
-      label.className = "clip-channel";
-      label.textContent = item.channel.display_name;
-      var body = document.createElement("span");
-      body.className = "clip-body";
-      body.append(niche, views, title, label);
-      button.append(body);
-      button.addEventListener("click", function () { openChannel(item.channel, true); });
-      row.append(button);
+      row.append(clipCard(item, index === 0, false));
     });
   }
 
+  function clipCard(item, feature, asLink) {
+    var button;
+    if (asLink && isYouTubeUrl(item.post.url)) {
+      button = document.createElement("a");
+      button.href = item.post.url;
+      button.target = "_blank";
+      button.rel = "noopener noreferrer";
+    } else {
+      button = document.createElement("button");
+      button.type = "button";
+      button.addEventListener("click", function () { openChannel(item.channel, true); });
+    }
+    button.className = "clip-card" + (feature ? " is-feature" : "");
+    button.setAttribute("aria-label", cleanTitle(item.post.title, 110) + ", " + full.format(item.post.views) + " views." + (asLink ? " Opens on YouTube." : " View channel posts."));
+    var thumb = thumbFor(item.channel, item.post);
+    if (thumb) {
+      var img = document.createElement("img");
+      img.src = thumb;
+      img.alt = "";
+      img.width = 405;
+      img.height = 720;
+      button.append(img);
+    }
+    if (feature) {
+      var lights = document.createElement("span");
+      lights.className = "traffic";
+      lights.setAttribute("aria-hidden", "true");
+      lights.append(document.createElement("i"), document.createElement("i"), document.createElement("i"));
+      button.append(lights);
+    }
+    var niche = document.createElement("p");
+    niche.className = "clip-niche";
+    niche.textContent = item.niche + " · Short";
+    var views = document.createElement("p");
+    views.className = "clip-views";
+    views.textContent = compact(item.post.views);
+    var viewsLabel = document.createElement("span");
+    viewsLabel.className = "clip-views-label";
+    viewsLabel.textContent = "views";
+    views.append(viewsLabel);
+    var title = document.createElement("p");
+    title.className = "clip-title";
+    title.textContent = cleanTitle(item.post.title, 78);
+    var label = document.createElement("p");
+    label.className = "clip-channel";
+    label.textContent = item.channel.display_name;
+    var body = document.createElement("span");
+    body.className = "clip-body";
+    body.append(niche, views, title, label);
+    button.append(body);
+    return button;
+  }
+
   function thumbFor(channel, post) {
+    if (post && typeof post.thumb === "string" && /^assets\/thumbs\/[A-Za-z0-9_-]+\.jpg$/.test(post.thumb)) return post.thumb;
     var list = topShorts[channel.display_name];
     if (!Array.isArray(list)) return "";
     var id = youtubeId(post && post.url);
@@ -427,6 +447,104 @@
     fill.style.width = pct + "%";
     track.append(fill);
     return track;
+  }
+
+  function isRoblox(channel) {
+    return !isAnon(channel) && CLIP_NICHES[channel.display_name] === "Roblox";
+  }
+
+  function lifetimeAverage(channel) {
+    var total = reportedViews(channel);
+    var count = typeof channel.post_count === "number" ? channel.post_count : null;
+    if (total == null || !count) return null;
+    return Math.round(total / count);
+  }
+
+  function renderRoblox() {
+    var grid = document.getElementById("roblox-grid");
+    var row = document.getElementById("roblox-row");
+    if (!grid || !row) return;
+    var list = channels.filter(isRoblox).sort(function (a, b) {
+      return (lifetimeAverage(b) || 0) - (lifetimeAverage(a) || 0);
+    });
+    grid.replaceChildren();
+    list.forEach(function (channel) { grid.append(robloxCard(channel)); });
+
+    var clips = [];
+    list.forEach(function (channel) {
+      shortsOf(channel).forEach(function (post) {
+        if (post.views >= ROBLOX_MIN) clips.push({ channel: channel, post: post, niche: "Roblox" });
+      });
+    });
+    clips.sort(function (a, b) { return b.post.views - a.post.views; });
+    row.replaceChildren();
+    clips.forEach(function (item, index) { row.append(clipCard(item, index === 0, true)); });
+    var status = document.getElementById("roblox-status");
+    if (status) {
+      status.textContent = clips.length
+        ? clips.length + (clips.length === 1 ? " Roblox Short" : " Roblox Shorts") + " with " + full.format(ROBLOX_MIN) + " views or more, highest first."
+        : "No Roblox Short has " + full.format(ROBLOX_MIN) + " views yet.";
+    }
+  }
+
+  function robloxCard(channel) {
+    var avg = lifetimeAverage(channel);
+    var hit = typeof avg === "number" && avg >= ROBLOX_MIN;
+    var card = document.createElement("article");
+    card.className = "channel-card roblox-card reveal is-in" + (hit ? " is-hit" : "");
+
+    var kicker = document.createElement("div");
+    kicker.className = "card-kicker";
+    var badge = document.createElement("p");
+    badge.className = "badge";
+    badge.textContent = channel.platform || "YouTube";
+    kicker.append(badge);
+    if (hit) {
+      var flag = document.createElement("p");
+      flag.className = "status";
+      flag.textContent = "1.5K+ average views";
+      kicker.append(flag);
+    }
+    card.append(kicker);
+
+    var title = document.createElement("h3");
+    title.textContent = channel.display_name;
+    card.append(title);
+    if (channel.niche) {
+      var niche = document.createElement("p");
+      niche.className = "niche";
+      niche.textContent = channel.niche;
+      card.append(niche);
+    }
+
+    var big = document.createElement("p");
+    big.className = "roblox-avg";
+    var num = document.createElement("strong");
+    num.textContent = typeof avg === "number" ? full.format(avg) : "Not listed";
+    var lab = document.createElement("span");
+    lab.textContent = "average views per video, from channel totals";
+    big.append(num, lab);
+    card.append(big);
+
+    var stats = document.createElement("div");
+    stats.className = "stat-row";
+    var total = reportedViews(channel);
+    stats.append(stat(typeof total === "number" ? full.format(total) : "Not listed", "Total views"));
+    stats.append(stat(typeof channel.post_count === "number" ? full.format(channel.post_count) : "Not listed", "Videos"));
+    var subs = subscriberLabel(channel);
+    if (subs) stats.append(stat(subs, "Subscribers"));
+    card.append(stats);
+
+    if (typeof channel.url === "string" && isYouTubeUrl(channel.url)) {
+      var link = document.createElement("a");
+      link.className = "launch";
+      link.href = channel.url;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.textContent = "Open " + (channel.handle || "channel") + " on YouTube";
+      card.append(link);
+    }
+    return card;
   }
 
   function renderFresh() {
