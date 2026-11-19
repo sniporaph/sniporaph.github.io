@@ -1583,7 +1583,10 @@ a.clip-card { text-decoration: none; }
   letter-spacing: -0.02em;
 }
 
-#achievements .clip-row { margin-bottom: 1.6rem; }
+#achievements .shorts-shelf-wrap {
+  margin-top: 0;
+  margin-bottom: 1.6rem;
+}
 
 @media (min-width: 640px) {
   .achieve-strip,
